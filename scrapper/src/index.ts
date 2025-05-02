@@ -1,7 +1,5 @@
-import fs from 'fs';
+import { scrapeGoogleJobs } from "./scripts/GoogleJobs/GoogleJobsScraper";
 
-fs.writeFile('./output.txt', 'Hello World!', (err) => { 
-  if (err) throw err;
-  console.log('The file has been saved!');
-}
-);
+scrapeGoogleJobs().then((jobs) => {
+  console.log("Scraped jobs:", jobs);
+}); 
