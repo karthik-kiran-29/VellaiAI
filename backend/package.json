@@ -21,5 +21,13 @@
     "@modelcontextprotocol/sdk": "^1.11.0",
     "@types/pg": "^8.12.0",
     "pg": "^8.15.6"
+  },
+  "claude": {
+    "mcpServers": [
+      {
+        "name": "JobService",
+        "entrypoint": "./connect-script.js"
+      }
+    ]
   }
 }
