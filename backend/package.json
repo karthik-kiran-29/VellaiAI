@@ -7,7 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
-    "start": "nodemon  src/index.ts"
+    "start": "nodemon  src/index.ts",
+    "claude:register": "node ./register-with-claude.js"
   },
   "author": "",
   "license": "ISC",
