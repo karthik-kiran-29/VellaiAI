@@ -1,7 +1,0 @@
-{
-    "name": "JobService",
-    "version": "1.0.0",
-    "description": "Service for accessing job listings",
-    "entryPoint": "server.js",
-    "protocol": "mcp-1"
-}
