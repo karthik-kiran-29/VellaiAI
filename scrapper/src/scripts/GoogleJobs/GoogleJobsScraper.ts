@@ -6,7 +6,7 @@ async function scrapePage(browser: Browser, url: string, pageNumber: number): Pr
   const page = await browser.newPage();
   
   try {
-    await page.goto(url, { waitUntil: 'networkidle2' });
+    await page.goto(url, { waitUntil: 'networkidle0' });
     
     // Accept cookies if dialog appears
     try {
@@ -28,9 +28,13 @@ async function scrapePage(browser: Browser, url: string, pageNumber: number): Pr
     
     console.log(`Found ${jobTitles.length} jobs on page ${pageNumber}`);
 
+    const element = await page.$('h3.Ki3IFe');
+    if (element) await element.click();
+
+
     // Process each job on the page
     for (let i = 0; i < jobTitles.length; i++) {
-       const jobLink = jobTitles[i];
+       const jobTitle = jobTitles[i];
 
         // Find and click the specific job title link
         await page.evaluate((jobTitle) => {
@@ -39,7 +43,7 @@ async function scrapePage(browser: Browser, url: string, pageNumber: number): Pr
             if (element) {
           (element as HTMLElement).click();
             }
-        }, jobLink);
+        }, jobTitle);
 
         // Wait for the job details to load
         await page.waitForNetworkIdle({ idleTime: 1000 });
@@ -122,7 +126,8 @@ async function scrapePage(browser: Browser, url: string, pageNumber: number): Pr
                 minimum: minimumQualifications,
                 preferred: preferredQualifications
               },
-              responsibilities: responsibilities
+              responsibilities: responsibilities,
+              job_link: window.location.href,
             };
           });
           
@@ -153,7 +158,7 @@ export const scrapeGoogleJobs = async (): Promise<JobDetails[]> => {
   try {
     // Get total number of pages first
     const page = await browser.newPage();
-    await page.goto("https://www.google.com/about/careers/applications/jobs/results/116029409239933638-scaled-delivery-manager-gtech-ads-solutions?location=India&sortBy=newest&sort_by=date");
+    await page.goto("https://www.google.com/about/careers/applications/jobs/results/110690555461018310-software-engineer-iii-infrastructure-core?location=India&sortBy=newest&sort_by=date");
     
     const totalJobs = await page.evaluate(() => {
       const element = document.querySelector('div[jsname="GRPLBc"]');
@@ -173,7 +178,7 @@ export const scrapeGoogleJobs = async (): Promise<JobDetails[]> => {
       const currentBatch = [];
       for (let j = 0; j < 5 && i + j < totalPages; j++) {
         const pageNum = i + j + 1;
-        const url = `https://www.google.com/about/careers/applications/jobs/results/116029409239933638-scaled-delivery-manager-gtech-ads-solutions?location=India&sortBy=newest&sort_by=date&page=${pageNum}`;
+        const url = `https://www.google.com/about/careers/applications/jobs/results/110690555461018310-software-engineer-iii-infrastructure-core?location=India&page=${pageNum}&sortBy=newest&sort_by=date&`;
         currentBatch.push(scrapePage(browser, url, pageNum));
       }
       

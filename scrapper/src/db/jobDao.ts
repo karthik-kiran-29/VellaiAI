@@ -21,6 +21,7 @@ export async function insertJobDetailsBulk(
     'posted_at',
     'qualifications',
     'responsibilities',
+    'job_link'
   ]
 
   // Start building the SQL:
@@ -51,6 +52,7 @@ export async function insertJobDetailsBulk(
       new Date(),                              // posted_at = NOW() equivalent
       job.qualifications ? JSON.stringify(job.qualifications) : null,
       job.responsibilities || null,
+      job.job_link || null
     )
   })
 

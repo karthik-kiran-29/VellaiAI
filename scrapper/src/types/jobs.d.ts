@@ -10,4 +10,5 @@ export interface JobDetails {
       preferred: string[];
     };
     responsibilities?: string[];
+    job_link?: string;
   }
